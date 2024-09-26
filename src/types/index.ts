@@ -1,7 +1,7 @@
 export interface IProduct {
 	id: string;
 	title: string;
-	price: number;
+	price: number | null;
 	image: string;
 	category: string;
 	description: string;
@@ -21,7 +21,8 @@ export interface IProductsData {
 
 export interface ICartData {
 	cart: TProductCart[];
-	addToCart: (product: IProduct) => void;
+	totalPrice: number;
+	addToCart: (productId: string) => void;
 	removeFromCart: (productId: string) => void;
 	clearCart: () => void;
 }
@@ -29,6 +30,7 @@ export interface ICartData {
 export interface IUserData {
 	user: IUser;
 	updateUserInfo: (user: IUser) => void;
+	clearUserInfo: () => void;
 }
 
 export type TProductCatalog = Omit<IProduct, 'description'>;
