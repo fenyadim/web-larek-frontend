@@ -86,9 +86,9 @@ interface IProductsData {
 interface ICartData {
 	cart: IProduct[];
 	totalPrice: number;
-	addToCart: (product: IProduct) => void;
-	removeFromCart: (productId: string) => void;
-	clearCart: () => void;
+	add: (product: IProduct) => void;
+	remove: (productId: string) => void;
+	clear: () => void;
 }
 ```
 
@@ -171,7 +171,7 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 В полях класса хранятся следующие данные:
 
 - _cart: TProductCart[] - массив с данными продуктов в корзине
-- totalPrice: number - общая стоимость корзины
+- _totalPrice: number - общая стоимость корзины
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
 Методы:
@@ -192,7 +192,7 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 
 В полях класса хранятся следующие данные:
 
-- user: IUser - объект данных пользователя
+- _user: IUser - объект данных пользователя
 - events: IEvents - экземпляр класса `EventEmitter` для инициации событий при изменении данных.
 
 Методы:
