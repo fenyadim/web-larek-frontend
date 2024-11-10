@@ -31,16 +31,19 @@ export class ProductCard extends Component<IProduct> {
 		this.cardPrice = this.container.querySelector('.card__price');
 		this.cardCategory = this.container.querySelector('.card__category');
 		this.addToCartButton = this.container.querySelector('.card__button');
-		this.cardContainerButton = this.container;
 
-		if (this.cardContainerButton)
-			this.cardContainerButton.addEventListener('click', () => {
+		if (container.nodeName === 'BUTTON')
+			container.addEventListener('click', () => {
 				this.events.emit('productModal:open', { product: this });
 			});
 
 		if (this.addToCartButton)
 			this.addToCartButton.addEventListener('click', () => {
-				this.events.emit('basket-item:add', { product: this });
+				if (this.addToCartButton.ariaLabel) {
+					this.events.emit('basket-item:delete', { product: this });
+				} else {
+					this.events.emit('basket-item:add', { product: this });
+				}
 			});
 	}
 
@@ -53,25 +56,32 @@ export class ProductCard extends Component<IProduct> {
 	}
 
 	set image(image: string) {
-		this.cardImage.src = `${CDN_URL}${image}`;
+		if (this.cardImage) this.cardImage.src = `${CDN_URL}${image}`;
 	}
 
 	set category(category: Categories) {
-		const styleCategory: Record<Categories, string> = {
-			'софт-скил': 'card__category_soft',
-			другое: 'card__category_other',
-			дополнительное: 'card__category_additional',
-			кнопка: 'card__category_button',
-			'хард-скил': 'card__category_hard',
-		};
-		this.cardCategory.className = 'card__category ' + styleCategory[category];
-		this.cardCategory.textContent = category;
+		if (this.cardCategory) {
+			const styleCategory: Record<Categories, string> = {
+				'софт-скил': 'card__category_soft',
+				другое: 'card__category_other',
+				дополнительное: 'card__category_additional',
+				кнопка: 'card__category_button',
+				'хард-скил': 'card__category_hard',
+			};
+			this.cardCategory.className = 'card__category ' + styleCategory[category];
+			this.cardCategory.textContent = category;
+		}
 	}
 
 	set price(price: number) {
 		if (price === null) {
 			this.cardPrice.textContent = 'Бесценно';
 		} else this.cardPrice.textContent = `${price} синапсов`;
+	}
+
+	set titleBuyButton(title: string) {
+		this.addToCartButton.textContent = title;
+		this.addToCartButton.setAttribute('aria-label', 'удалить');
 	}
 
 	set id(id: string) {
