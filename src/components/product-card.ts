@@ -17,7 +17,6 @@ export class ProductCard extends Component<IProduct> {
 	protected cardImage: HTMLImageElement;
 	protected cardPrice: HTMLElement;
 	protected cardCategory: HTMLElement;
-	protected cardContainerButton: HTMLElement;
 	protected addToCartButton: HTMLButtonElement;
 	protected cardId: string;
 
@@ -40,8 +39,12 @@ export class ProductCard extends Component<IProduct> {
 		if (this.addToCartButton)
 			this.addToCartButton.addEventListener('click', () => {
 				if (this.addToCartButton.ariaLabel) {
+					this.addToCartButton.removeAttribute('aria-label');
+					this.addToCartButton.textContent = 'В корзину';
 					this.events.emit('basket-item:delete', { product: this });
 				} else {
+					this.addToCartButton.setAttribute('aria-label', 'удалить');
+					this.addToCartButton.textContent = 'Убрать';
 					this.events.emit('basket-item:add', { product: this });
 				}
 			});
@@ -79,8 +82,8 @@ export class ProductCard extends Component<IProduct> {
 		} else this.cardPrice.textContent = `${price} синапсов`;
 	}
 
-	set titleBuyButton(title: string) {
-		this.addToCartButton.textContent = title;
+	set hasInCart(hasInCart: boolean) {
+		this.addToCartButton.textContent = 'Убрать';
 		this.addToCartButton.setAttribute('aria-label', 'удалить');
 	}
 
