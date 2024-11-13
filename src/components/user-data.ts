@@ -20,8 +20,11 @@ export class UserData implements IUserData {
 	}
 
 	update(user: IUser) {
-		this._user = user;
-		this.events.emit('user:changed', user);
+		this._user = {
+			...this._user,
+			...user,
+		};
+		this.events.emit('user:changed', this._user);
 	}
 
 	clear() {

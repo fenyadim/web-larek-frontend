@@ -7,7 +7,7 @@ interface ICatalog {
 export class Catalog extends Component<ICatalog> {
 	protected _catalog: HTMLElement;
 
-	constructor(protected container: HTMLElement) {
+	constructor(container: HTMLElement) {
 		super(container);
 	}
 

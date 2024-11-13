@@ -239,14 +239,14 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 Поля класса:
 
 - events: IEvents - брокер событий
-- productId: string
-- productTitle: HTMLElement
-- productPrice: HTMLElement
-- productImage: HTMLElement
-- productCategory: HTMLElement
-- productDescription: HTMLElement
-- deleteButton: HTMLButtonElement - кнопка удаления. Используется в корзине
-- addButton: HTMLButtonElement - кнопка добавить в корзину
+- cardTitle: HTMLElement
+- cardText: HTMLElement
+- cardImage: HTMLImageElement
+- cardPrice: HTMLElement
+- cardCategory: HTMLElement
+- addToCartButton: HTMLButtonElement - кнопка добавить в корзину
+- _basketIndex: HTMLElement
+- cardId: string
 
 Методы:
 
@@ -256,7 +256,8 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 - set image: (image: string) => void - сеттер для поля image 
 - set category: (category: string) => void - сеттер для поля category 
 - set description: (description: string) => void - сеттер для поля description
-- deleteProduct: () => void - удаляет товар из контейнера 
+- set hasInCart: (hasInCart: boolean) => void - сеттер для изменения текста копки
+- set basketIndex: (id: number) => void - сеттер для назначения номера в корзине 
 
 #### Класс Catalog
 
@@ -282,6 +283,7 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 
 - catalogCart: HTMLElement
 - totalPriceElement: HTMLElement - элемент итоговой суммы. Будет изменяться при добавлении/удалении товара.
+- basketButton: HTMLButtonElement - кнопка для перехода на следующий этап в корзине
 
 Методы:
 
@@ -290,27 +292,31 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 
 #### Класс Form
 
-Предназначен для реализации формs содержащей поля ввода.  
+Предназначен для реализации форм содержащей поля ввода.  
 При сабмите инициирует событие передавая в него объект с данными из полей ввода формы. При изменении данных в полях ввода инициирует событие изменения данных. Предоставляет методы для отображения ошибок и управления активностью кнопки сохранения.\
 
-- constructor(container: HTMLElement) - передается DOM элемент темплейта
+- constructor(container: HTMLElement, events: IEvents) - передается DOM элемент темплейта
 
 Поля класса:
 
+- events: IEvents - брокер событий
 - submitButton: HTMLButtonElement - Кнопка подтверждения
-- _form: HTMLFormElement - элемент формы
 - formName: string - значение атрибута name формы
 - inputs: NodeListOf<HTMLInputElement> - коллекция всех полей ввода формы
 - errors: Record<string, HTMLElement> - объект хранящий все элементы для вывода ошибок под полями формы с привязкой к
   атрибуту name инпутов
+- toggleButtons: NodeListOf<HTMLButtonElement> - коллекция кнопок выбора способа оплаты
 
 Методы:
 
-- setValid: (isValid: boolean): => void - изменяет активность кнопки подтверждения
+- set valid: (isValid: boolean): => void - изменяет активность кнопки подтверждения
 - getInputValues: () => Record<string, string> - возвращает объект с данными из полей формы, где ключ - name инпута,
   значение - данные введенные пользователем
-- setInputValues: (data: Record<string, string>) => void - принимает объект с данными для заполнения полей формы
-- setError: (errorMessage: string) => void - принимает текст ошибки и отображает её.
+- set inputValues: (data: Record<string, string>) => void - принимает объект с данными для заполнения полей формы
+- set error: (errorMessage: string) => void - принимает текст ошибки и отображает её.
+- toggleMethod: (button: HTMLButtonElement) => void - изменяет стили выбранной кнопки способа оплаты
+- showInputError: (errorMessage: string) => void - показывает текст ошибки 
+- hideInputError: () => void - скрывает текст ошибки
 
 #### Класс Success
 
@@ -318,7 +324,9 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 
 Поля класса
 
+- events: IEvents - брокер событий
 - _totalPrice: HTMLElement - элемент итоговой суммы.
+- successButton: HTMLButtonElement - кнопка закрытия окна
 
 Методы:
 
@@ -352,6 +360,7 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 - `productModal:open` - открытие модального окна полной информации товара
 - `orderModal:open` - открытие модального окна с формой редактирования доставки
 - `contactModal:open` - открытие модального окна с формой редактирования контактных данных
+- `successModal:close` - закрытие модального окна успешного оформления
 - `product:select` - выбор карточки для отображения в модальном окне
 - `basket-button:select` - нажатие на кнопку корзины для отображения в модальном окне
 - `basket-item:add` - выбор карточки для добавления в корзину
@@ -360,5 +369,3 @@ type TProductCart = Pick<IProduct, 'id' | 'title' | 'price'>
 - `contact:input` - изменение данных в форме с контактными данными
 - `order:submit` - сохранение данных в форме с доставкой
 - `contact:submit` - сохранение данных в форме с контактными данными
-- `order:validation` - событие, сообщающее о необходимости валидации формы доставки
-- `contact:validation` - событие, сообщающее о необходимости валидации формы контактных данных

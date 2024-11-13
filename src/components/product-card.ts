@@ -18,9 +18,10 @@ export class ProductCard extends Component<IProduct> {
 	protected cardPrice: HTMLElement;
 	protected cardCategory: HTMLElement;
 	protected addToCartButton: HTMLButtonElement;
+	protected _basketIndex: HTMLElement;
 	protected cardId: string;
 
-	constructor(protected container: HTMLElement, events: IEvents) {
+	constructor(container: HTMLElement, events: IEvents) {
 		super(container);
 		this.events = events;
 
@@ -30,6 +31,7 @@ export class ProductCard extends Component<IProduct> {
 		this.cardPrice = this.container.querySelector('.card__price');
 		this.cardCategory = this.container.querySelector('.card__category');
 		this.addToCartButton = this.container.querySelector('.card__button');
+		this._basketIndex = this.container.querySelector('.basket__item-index');
 
 		if (container.nodeName === 'BUTTON')
 			container.addEventListener('click', () => {
@@ -60,6 +62,10 @@ export class ProductCard extends Component<IProduct> {
 
 	set image(image: string) {
 		if (this.cardImage) this.cardImage.src = `${CDN_URL}${image}`;
+	}
+
+	set basketIndex(id: number) {
+		if (this._basketIndex) this._basketIndex.textContent = String(id);
 	}
 
 	set category(category: Categories) {

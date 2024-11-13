@@ -10,13 +10,19 @@ export class Basket extends Component<IBasket> {
 	protected events: IEvents;
 	protected catalogCard: HTMLElement;
 	protected totalPriceElement: HTMLElement;
+	protected basketButton: HTMLButtonElement;
 
-	constructor(protected container: HTMLElement, events: IEvents) {
+	constructor(container: HTMLElement, events: IEvents) {
 		super(container);
 		this.events = events;
 
 		this.catalogCard = this.container.querySelector('.basket__list');
 		this.totalPriceElement = this.container.querySelector('.basket__price');
+		this.basketButton = this.container.querySelector('.basket__button');
+
+		this.basketButton.addEventListener('click', () => {
+			this.events.emit('orderModal:open');
+		});
 	}
 
 	set catalog(catalog: HTMLElement[]) {
