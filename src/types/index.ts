@@ -9,8 +9,10 @@ export interface IProduct {
 	description: string;
 }
 
+export type TPayment = 'card' | 'cash';
+
 export interface IUser {
-	method: 'card' | 'cash';
+	payment: TPayment | '';
 	address: string;
 	email: string;
 	phone: string;

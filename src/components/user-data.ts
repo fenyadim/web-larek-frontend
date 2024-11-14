@@ -10,7 +10,7 @@ export class UserData implements IUserData {
 		this._user = {
 			phone: '',
 			address: '',
-			method: null,
+			payment: null,
 			email: '',
 		};
 	}
@@ -31,7 +31,7 @@ export class UserData implements IUserData {
 		this._user = {
 			phone: '',
 			address: '',
-			method: null,
+			payment: null,
 			email: '',
 		};
 		this.events.emit('user:changed', this._user);

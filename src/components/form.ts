@@ -1,5 +1,6 @@
 import { Component } from '../components/base/component';
 import { IEvents } from '../components/base/events';
+import { IUser, TPayment } from '../types';
 
 interface IForm {
 	inputValues: Record<string, string>;
@@ -44,9 +45,10 @@ export class Form extends Component<IForm> {
 	}
 
 	getInputValues() {
-		const valuesObject: Record<string, string> = {};
+		const valuesObject: Partial<IUser> = {};
 		this.inputs.forEach((element) => {
-			valuesObject[element.name] = element.value;
+			valuesObject[element.name as keyof Omit<IUser, 'payment'>] =
+				element.value;
 		});
 
 		if (this.toggleButtons.length) {
@@ -55,9 +57,9 @@ export class Form extends Component<IForm> {
 			);
 
 			if (findCurrentMethod) {
-				valuesObject.method = findCurrentMethod.name;
+				valuesObject.payment = findCurrentMethod.name as TPayment;
 			} else {
-				valuesObject.method = '';
+				valuesObject.payment = '';
 			}
 		}
 

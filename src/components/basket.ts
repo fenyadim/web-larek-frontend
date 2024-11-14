@@ -20,12 +20,15 @@ export class Basket extends Component<IBasket> {
 		this.totalPriceElement = this.container.querySelector('.basket__price');
 		this.basketButton = this.container.querySelector('.basket__button');
 
+		this.basketButton.disabled = true;
+
 		this.basketButton.addEventListener('click', () => {
 			this.events.emit('orderModal:open');
 		});
 	}
 
 	set catalog(catalog: HTMLElement[]) {
+		this.basketButton.disabled = catalog.length === 0;
 		this.catalogCard.replaceChildren(...catalog);
 	}
 

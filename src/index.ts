@@ -175,9 +175,22 @@ events.on('contacts:input', () => {
 events.on('contacts:submit', (data: IUser) => {
 	submitEvent('contactModal:open', data);
 	success.totalPrice = cartData.totalPrice;
-	modalContainer.render({ children: success.render() });
-	cartData.clear();
-	userData.clear();
+	api
+		.setOrder({
+			total: cartData.totalPrice,
+			items: cartData.cart.map((card) => card.id),
+			...userData.user,
+		})
+		.then(() => {
+			modalContainer.render({ children: success.render() });
+			cartData.clear();
+			userData.clear();
+		})
+		.catch((e) => {
+			contacts.error = {
+				validInfo: e,
+			};
+		});
 });
 
 events.on('successModal:close', () => {
