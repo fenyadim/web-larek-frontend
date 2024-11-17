@@ -85,10 +85,13 @@ export class ProductCard extends Component<IProduct> {
 	set price(price: number) {
 		if (price === null) {
 			this.cardPrice.textContent = 'Бесценно';
+			if (this.addToCartButton) {
+				this.addToCartButton.disabled = true;
+			}
 		} else this.cardPrice.textContent = `${price} синапсов`;
 	}
 
-	set hasInCart(hasInCart: boolean) {
+	hasInCart() {
 		this.addToCartButton.textContent = 'Убрать';
 		this.addToCartButton.setAttribute('aria-label', 'удалить');
 	}

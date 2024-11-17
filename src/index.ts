@@ -110,7 +110,7 @@ events.on('productModal:open', (data: { product: ProductCard }) => {
 	const card = productsData.getOneProduct(product.id);
 	const cardInstance = new ProductCard(cloneTemplate(cardFullTemplate), events);
 	if (cartData.cart.find((product) => product.id === card.id)) {
-		cardInstance.hasInCart = true;
+		cardInstance.hasInCart();
 	}
 	modalContainer.render({ children: cardInstance.render(card) });
 });
